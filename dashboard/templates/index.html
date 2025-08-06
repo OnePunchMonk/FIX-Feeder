@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FixFeeder Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <h1>FixFeeder Real-Time Audit Log</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>MsgSeqNum</th>
+                <th>SendingTime</th>
+                <th>Full Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for msg in messages %}
+            <tr>
+                <td>{{ msg['id'] }}</td>
+                <td>{{ msg['msg_seq_num'] }}</td>
+                <td>{{ msg['sending_time'] }}</td>
+                <td>{{ msg['message'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

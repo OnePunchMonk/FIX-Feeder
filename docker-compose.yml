@@ -1,0 +1,321 @@
+# # # # version: '3.8'
+# # # # services:
+  
+# # # #   zookeeper:
+# # # #     image: 'bitnami/zookeeper:latest'
+# # # #     ports:
+# # # #       - '2181:2181'
+# # # #     environment:
+# # # #       - ALLOW_ANONYMOUS_LOGIN=yes
+  
+# # # #   kafka:
+# # # #     image: 'bitnami/kafka:latest'
+# # # #     ports:
+# # # #       - '9092:9092'
+# # # #     depends_on:
+# # # #       - zookeeper
+# # # #     environment:
+# # # #       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+# # # #       # Configure listeners for internal and external traffic
+# # # #       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+# # # #       - KAFKA_CFG_LISTENERS=INTERNAL://:9093,EXTERNAL://:9092
+# # # #       - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:9093,EXTERNAL://localhost:9092
+# # # #       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
+# # # #       # Allow plaintext listener
+# # # #       - ALLOW_PLAINTEXT_LISTENER=yes
+      
+# # # #   postgres:
+# # # #     image: postgres:13
+# # # #     environment:
+# # # #       POSTGRES_USER: user
+# # # #       POSTGRES_PASSWORD: password
+# # # #       POSTGRES_DB: fixfeeder
+# # # #     ports:
+# # # #       - "5432:5432"
+
+# # # #   fixfeeder:
+# # # #     build: .
+# # # #     depends_on:
+# # # #       - kafka
+# # # #       - postgres
+# # # #     ports:
+# # # #       - "9876:9876" # FIX Socket
+# # # #       - "8000:8000" # Prometheus
+# # # #       - "5001:5001" # Dashboard
+# # # #       - "8080:8080" # API
+# # # #     volumes:
+# # # #       - ./config:/app/config
+
+
+# # # # version: '3.8'
+# # # # services:
+# # # #   zookeeper:
+# # # #     image: 'bitnami/zookeeper:latest'
+# # # #     ports:
+# # # #       - '2181:2181'
+# # # #     environment:
+# # # #       - ALLOW_ANONYMOUS_LOGIN=yes
+
+# # # #   kafka:
+# # # #     image: 'bitnami/kafka:latest'
+# # # #     ports:
+# # # #       - '9092:9092'
+# # # #     depends_on:
+# # # #       - zookeeper
+# # # #     environment:
+# # # #       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+# # # #       - ALLOW_PLAINTEXT_LISTENER=yes
+# # # #       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+
+# # # #   postgres:
+# # # #     image: postgres:13
+# # # #     environment:
+# # # #       POSTGRES_USER: user
+# # # #       POSTGRES_PASSWORD: password
+# # # #       POSTGRES_DB: fixfeeder
+# # # #     ports:
+# # # #       - "5432:5432"
+
+# # # #   fixfeeder:
+# # # #     build: .
+# # # #     depends_on:
+# # # #       - kafka
+# # # #       - postgres
+# # # #     ports:
+# # # #       - "9876:9876" # FIX Socket
+# # # #       - "8000:8000" # Prometheus
+# # # #       - "5001:5001" # Dashboard
+# # # #       - "8080:8080" # API
+# # # #     volumes:
+# # # #       - ./config:/app/config      
+
+
+
+
+# # # version: '3.8'
+# # # services:
+# # #   zookeeper:
+# # #     image: 'bitnami/zookeeper:latest'
+# # #     ports:
+# # #       - '2181:2181'
+# # #     environment:
+# # #       - ALLOW_ANONYMOUS_LOGIN=yes
+
+# # #   kafka:
+# # #     image: 'bitnami/kafka:latest'
+# # #     ports:
+# # #       - '9092:9092'
+# # #     depends_on:
+# # #       - zookeeper
+# # #     environment:
+# # #       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+# # #       - ALLOW_PLAINTEXT_LISTENER=yes
+# # #       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+
+# # #   postgres:
+# # #     image: postgres:13
+# # #     environment:
+# # #       POSTGRES_USER: user
+# # #       POSTGRES_PASSWORD: password
+# # #       POSTGRES_DB: fixfeeder
+# # #     ports:
+# # #       - "5432:5432"
+# # #     healthcheck:
+# # #       test: ["CMD-SHELL", "pg_isready -U user -d fixfeeder"]
+# # #       interval: 10s
+# # #       timeout: 5s
+# # #       retries: 5
+
+# # #   fixfeeder:
+# # #     build: .
+# # #     depends_on:
+# # #       kafka:
+# # #         condition: service_started
+# # #       postgres:
+# # #         condition: service_healthy # <-- THIS IS THE FIX
+# # #     ports:
+# # #       - "9876:9876" # FIX Socket
+# # #       - "8000:8000" # Prometheus
+# # #       - "5001:5001" # Dashboard
+# # #       - "8080:8080" # API
+# # #     volumes:
+# # #       - ./config:/app/config
+
+
+# # version: '3.8'
+# # services:
+# #   zookeeper:
+# #     image: 'bitnami/zookeeper:3.9' # Pinned to version 3.9
+# #     ports:
+# #       - '2181:2181'
+# #     environment:
+# #       - ALLOW_ANONYMOUS_LOGIN=yes
+
+# #   kafka:
+# #     image: 'bitnami/kafka:3.7' # Pinned to version 3.7
+# #     ports:
+# #       - '9092:9092'
+# #     depends_on:
+# #       - zookeeper
+# #     environment:
+# #       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+# #       - ALLOW_PLAINTEXT_LISTENER=yes
+# #       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+
+# #   postgres:
+# #     image: postgres:13
+# #     environment:
+# #       POSTGRES_USER: user
+# #       POSTGRES_PASSWORD: password
+# #       POSTGRES_DB: fixfeeder
+# #     ports:
+# #       - "5432:5432"
+# #     healthcheck:
+# #       test: ["CMD-SHELL", "pg_isready -U user -d fixfeeder"]
+# #       interval: 10s
+# #       timeout: 5s
+# #       retries: 5
+
+# #   fixfeeder:
+# #     build: .
+# #     depends_on:
+# #       kafka:
+# #         condition: service_started
+# #       postgres:
+# #         condition: service_healthy
+# #     ports:
+# #       - "9876:9876" # FIX Socket
+# #       - "8000:8000" # Prometheus
+# #       - "5001:5001" # Dashboard
+# #       - "8080:8080" # API
+# #     volumes:
+# #       - ./config:/app/config
+
+# version: '3.8'
+# services:
+#   zookeeper:
+#     image: 'bitnami/zookeeper:3.9'
+#     ports:
+#       - '2181:2181'
+#     environment:
+#       - ALLOW_ANONYMOUS_LOGIN=yes
+
+#   kafka:
+#     image: 'bitnami/kafka:3.7'
+#     ports:
+#       - '9092:9092'
+#     depends_on:
+#       - zookeeper
+#     environment:
+#       - KAFKA_CFG_BROKER_ID=1 # <-- ADDED FOR ROBUSTNESS
+#       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+#       - ALLOW_PLAINTEXT_LISTENER=yes
+#       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+
+#   postgres:
+#     image: postgres:13
+#     environment:
+#       POSTGRES_USER: user
+#       POSTGRES_PASSWORD: password
+#       POSTGRES_DB: fixfeeder
+#     ports:
+#       - "5432:5432"
+#     healthcheck:
+#       test: ["CMD-SHELL", "pg_isready -U user -d fixfeeder"]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 5
+
+#   fixfeeder:
+#     build: .
+#     depends_on:
+#       kafka:
+#         condition: service_started
+#       postgres:
+#         condition: service_healthy
+#     ports:
+#       - "9876:9876"
+#       - "8000:8000"
+#       - "5001:5001"
+#       - "8080:8080"
+#     volumes:
+#       - ./config:/app/config
+
+
+
+# Replace the contents of docker-compose.yml
+
+version: '3.8'
+
+services:
+  zookeeper:
+    image: 'bitnami/zookeeper:3.9'
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka:
+    image: 'bitnami/kafka:3.7'
+    ports:
+      - '9092:9092'
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_CFG_BROKER_ID=1
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: fixfeeder
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d fixfeeder"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    ports:
+      - '3000:3000'
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+
+  fixfeeder:
+    build: .
+    depends_on:
+      kafka:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+    ports:
+      - "9876:9876"
+      - "8000:8000"
+      - "5001:5001"
+    volumes:
+      - ./config:/app/config
+      # Mount the code for live-reloading during development (optional)
+      - ./:/app 
+
+volumes:
+  grafana-data:
+  postgres-data:

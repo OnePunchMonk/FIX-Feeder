@@ -1,0 +1,7 @@
+Flask
+gunicorn
+kafka-python
+psycopg2-binary
+PyYAML
+prometheus_client
+pytest
