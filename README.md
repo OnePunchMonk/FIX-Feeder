@@ -1,4 +1,4 @@
-# FixFeeder
+# FIX Feeder
 
 **Modular, Fault-Tolerant FIX Protocol Feed Ingestion & Monitoring Engine**
 
