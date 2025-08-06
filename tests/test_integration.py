@@ -2,7 +2,7 @@ import pytest
 import time
 from threading import Thread
 from fix_source.socket_listener import SocketListener
-from parser.fix_parser import FixParser
+from protocol_parsers.fix_parser import FixParser
 import socket
 
 class MockProducer:
