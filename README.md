@@ -1,10 +1,10 @@
-# FixFeeder
+# FIX Feeder
 
 **Modular, Fault-Tolerant FIX Protocol Feed Ingestion & Monitoring Engine**
 
 ![FixFeeder Dashboard](screenshots/dashboard.png)
 
-FixFeeder is an open-source, extensible, and production-ready ingestion engine for the Financial Information Exchange (FIX) protocol. It is designed for high-performance, reliability, and observability, making it ideal for HFT firms, quantitative analysts, and infrastructure engineers.
+FixFeeder is an open-source, extensible, and production-ready ingestion engine for the Financial Information Exchange (FIX) protocol. It is designed for high-performance, reliability, and observability, making it ideal for trading firms, quantitative analysts, and infrastructure engineers.
 
 ## 📋 Table of Contents
 
@@ -650,7 +650,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Examples**: Sample configurations and use cases
 
 ---
-
-**Built with ❤️ for the Financial Technology Community**
-
-*FixFeeder is designed by financial engineers, for financial engineers. We understand the unique challenges of market data processing and have built a solution that scales with your business.*
+*FixFeeder is designed by financial engineers, for financial engineers. We understand the unique challenges of market data processing and are building a solution that scales with your business.*
