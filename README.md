@@ -111,7 +111,7 @@ FixFeeder follows a modular, pipeline-based architecture designed for scalabilit
 
 ![System Summary](screenshots/summary.png)
 
-
+```mermaid
 graph TD
     A[External FIX Source] -->|TCP Socket| B[SocketListener]
     A2[Log File] -->|File Read| B2[FileReader]
@@ -152,6 +152,7 @@ graph TD
     style G fill:#e8f5e8
     style I fill:#fff3e0
     style J fill:#fce4ec
+```
 
 For detailed architecture information, see [ARCHITECTURE.md](docs/ARCH.md).
 
