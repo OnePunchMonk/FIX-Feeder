@@ -111,6 +111,48 @@ FixFeeder follows a modular, pipeline-based architecture designed for scalabilit
 
 ![System Summary](screenshots/summary.png)
 
+
+graph TD
+    A[External FIX Source] -->|TCP Socket| B[SocketListener]
+    A2[Log File] -->|File Read| B2[FileReader]
+    A3[Kafka Topic] -->|Consume| B3[KafkaConsumer]
+    A4[Replay File] -->|Timed Replay| B4[ReplayEngine]
+    
+    B --> C[FixParser]
+    B2 --> C
+    B3 --> C
+    B4 --> C
+    
+    C -->|Parsed Message| D[KafkaProducer]
+    C -->|Parsed Message| E[DBWriter]
+    
+    D -->|JSON Messages| F[Kafka Topic: fix.messages]
+    E -->|Structured Data| G[PostgreSQL/SQLite]
+    
+    H[Prometheus Client] -->|Metrics| I[Prometheus Server]
+    I -->|Data| J[Grafana Dashboard]
+    
+    K[Flask Dashboard] -->|Query| G
+    L[REST API] -->|Query| G
+    
+    M[Monitor Module] -->|Counters| H
+    C -.->|Increment Counters| M
+    
+    N[main.py] -->|Orchestrates| B
+    N -->|Manages| C
+    N -->|Starts| K
+    N -->|Starts| L
+    N -->|Starts| H
+    
+    O[Signal Handler] -->|Graceful Shutdown| N
+    P[Configuration] -->|YAML Config| N
+    
+    style A fill:#f9f9f9
+    style F fill:#e1f5fe
+    style G fill:#e8f5e8
+    style I fill:#fff3e0
+    style J fill:#fce4ec
+
 For detailed architecture information, see [ARCHITECTURE.md](docs/ARCH.md).
 
 ### High-Level Components
