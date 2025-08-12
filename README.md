@@ -1,4 +1,5 @@
 # FIX Feeder
+[![Project Status: Stable](https://img.shields.io/badge/status-stable-green.svg)](https://github.com/OnePunchMonk/FIX-Feeder)
 
 **Modular, Fault-Tolerant FIX Protocol Feed Ingestion & Monitoring Engine**
 
